@@ -19,10 +19,20 @@ class _todoState extends State<todo> {
         onPressed: () {},
         child: Icon(Icons.add),
       ),
-      body: ListView.builder(
+      body: MyTodo.todos.isEmpty?
+          Center(child:Text('Nothing To do!'),) :
+      ListView.builder(
         itemCount: MyTodo.todos.length,
         itemBuilder: (context, index) {
           final todo = MyTodo.todos[index];
+          return todoitem(
+              todo: todo,
+              onChanged: (value) {
+                setState(() {
+                  MyTodo.todos[index].completed = value;
+
+                });
+              });
         },
       ),
     );
@@ -38,9 +48,12 @@ class todoitem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
+      title: Text(todo.name),
+        subtitle: Text('Priority:${todo.priority.name} '),
         value: todo.completed,
         onChanged: (value){
-          
+          onChanged(value!);
+
          }
         );
   }
